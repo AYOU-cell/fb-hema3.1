@@ -135,10 +135,8 @@ h1 {
 
 .loss-banner {
   padding: 18px 22px 16px;
-  border-radius: 8px;
-  color: #fff;
-  background: linear-gradient(135deg, #d9423b, #c72428);
-  box-shadow: 0 10px 24px rgba(175, 35, 35, 0.18);
+  color: var(--red);
+  background: transparent;
 }
 
 .loss-value {
@@ -236,9 +234,8 @@ h1 {
   justify-content: center;
   gap: 12px;
   padding: 13px 20px;
-  border-radius: 8px;
-  color: #fff;
-  background: var(--red);
+  color: var(--red);
+  background: transparent;
   font-size: clamp(20px, 4.5vw, 29px);
   font-weight: 700;
 }
