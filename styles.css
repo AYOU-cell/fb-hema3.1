@@ -541,6 +541,13 @@ h1 {
   border-radius: 8px;
 }
 
+.solution-heading {
+  margin: 24px 0 8px;
+  color: var(--ink);
+  font-size: clamp(28px, 5vw, 38px);
+  line-height: 1.15;
+}
+
 .info-note svg {
   width: 42px;
   height: 42px;
