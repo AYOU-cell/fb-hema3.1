@@ -262,6 +262,7 @@ h1 {
   font-weight: 800;
   text-align: left;
   text-decoration: none;
+  animation: cta-breathe 2.4s ease-in-out infinite;
   transition:
     transform 180ms ease,
     background 180ms ease,
@@ -308,6 +309,31 @@ h1 {
 .section-whatsapp > svg {
   width: 24px;
   height: 24px;
+  animation: cta-arrow-nudge 1.7s ease-in-out infinite;
+}
+
+@keyframes cta-breathe {
+  0%,
+  100% {
+    box-shadow: 0 10px 24px rgba(8, 148, 87, 0.2);
+  }
+
+  50% {
+    box-shadow:
+      0 12px 28px rgba(8, 148, 87, 0.28),
+      0 0 0 7px rgba(16, 185, 105, 0.12);
+  }
+}
+
+@keyframes cta-arrow-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
 }
 
 .group-downloads {
@@ -652,6 +678,7 @@ address a:hover,
   visibility: hidden;
   pointer-events: none;
   transform: translate(-50%, 14px);
+  animation: cta-breathe 2.4s ease-in-out infinite;
   transition:
     opacity 180ms ease,
     visibility 180ms ease,
@@ -712,6 +739,7 @@ address a:hover,
 .floating-whatsapp > svg {
   width: 25px;
   height: 25px;
+  animation: cta-arrow-nudge 1.7s ease-in-out infinite;
 }
 
 .legal-modal {
@@ -1038,6 +1066,7 @@ body:has(dialog[open]) {
   *::before,
   *::after {
     scroll-behavior: auto !important;
+    animation: none !important;
     transition: none !important;
   }
 }
