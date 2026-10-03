@@ -648,10 +648,23 @@ address a:hover,
     0 3px 10px rgba(1, 76, 43, 0.2);
   text-decoration: none;
   transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 14px);
   transition:
+    opacity 180ms ease,
+    visibility 180ms ease,
     transform 180ms ease,
     background 180ms ease,
     box-shadow 180ms ease;
+}
+
+.floating-whatsapp.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%);
 }
 
 .floating-whatsapp:hover {

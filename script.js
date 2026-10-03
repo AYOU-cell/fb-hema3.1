@@ -53,6 +53,34 @@ document.querySelector(".floating-whatsapp")?.addEventListener("click", () => {
 });
 
 const documentsSection = document.querySelector(".group-downloads");
+const inlineWhatsapp = document.querySelector(".section-whatsapp");
+const floatingWhatsapp = document.querySelector(".floating-whatsapp");
+
+if (inlineWhatsapp && floatingWhatsapp && "IntersectionObserver" in window) {
+  let inlineHasBeenSeen = false;
+
+  const setFloatingVisibility = (visible) => {
+    floatingWhatsapp.classList.toggle("is-visible", visible);
+    floatingWhatsapp.setAttribute("aria-hidden", String(!visible));
+  };
+
+  const whatsappObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        inlineHasBeenSeen = true;
+        setFloatingVisibility(false);
+        return;
+      }
+
+      if (inlineHasBeenSeen) {
+        setFloatingVisibility(true);
+      }
+    },
+    { threshold: 0.01 },
+  );
+
+  whatsappObserver.observe(inlineWhatsapp);
+}
 
 if (documentsSection && "IntersectionObserver" in window) {
   const documentsObserver = new IntersectionObserver(
