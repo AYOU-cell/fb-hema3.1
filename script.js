@@ -3,12 +3,12 @@ if (window.lucide) {
 }
 
 const vercelEventLabels = {
-  whatsapp_inline_click: "页面内 WhatsApp 按钮点击",
-  whatsapp_floating_click: "底部悬浮 WhatsApp 按钮点击",
-  engaged_10s: "停留超过 10 秒",
-  engaged_30s: "停留超过 30 秒",
-  engaged_60s: "停留超过 60 秒",
-  scroll_to_documents: "滚动到资料区域",
+  yemian_ws: "页面内 WhatsApp 按钮点击",
+  dibu_ws: "底部悬浮 WhatsApp 按钮点击",
+  tingliu_10s: "停留超过 10 秒",
+  tingliu_30s: "停留超过 30 秒",
+  tingliu_60s: "停留超过 60 秒",
+  dibu: "滚动到资料区域",
 };
 
 function trackVercelEvent(name, data = {}) {
@@ -26,23 +26,23 @@ function trackVercelEvent(name, data = {}) {
 }
 
 document.querySelector(".section-whatsapp")?.addEventListener("click", () => {
-  trackVercelEvent("whatsapp_inline_click", {
+  trackVercelEvent("yemian_ws", {
     button_location: "inline",
     button_location_zh: "页面内容区",
   });
 });
 
 document.querySelector(".floating-whatsapp")?.addEventListener("click", () => {
-  trackVercelEvent("whatsapp_floating_click", {
+  trackVercelEvent("dibu_ws", {
     button_location: "floating",
     button_location_zh: "底部悬浮",
   });
 });
 
 [
-  ["engaged_10s", 10_000],
-  ["engaged_30s", 30_000],
-  ["engaged_60s", 60_000],
+  ["tingliu_10s", 10_000],
+  ["tingliu_30s", 30_000],
+  ["tingliu_60s", 60_000],
 ].forEach(([eventName, delay]) => {
   window.setTimeout(() => {
     trackVercelEvent(eventName, {
@@ -86,7 +86,7 @@ if (documentsSection && "IntersectionObserver" in window) {
   const documentsObserver = new IntersectionObserver(
     (entries, observer) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        trackVercelEvent("scroll_to_documents", {
+        trackVercelEvent("dibu", {
           section: "documents",
           section_zh: "群组资料",
         });
