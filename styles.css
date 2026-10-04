@@ -172,9 +172,26 @@ h1 {
   font-weight: 600;
 }
 
+.solution-lead {
+  max-width: 680px;
+  margin: 18px auto 0;
+  color: var(--red);
+  font-size: clamp(22px, 4vw, 30px);
+  line-height: 1.25;
+  text-align: center;
+}
+
 .chart-card {
   position: relative;
   padding-left: 35px;
+}
+
+.chart-footnote {
+  margin: -4px 0 0;
+  color: #87908e;
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: left;
 }
 
 .chart {
