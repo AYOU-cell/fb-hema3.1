@@ -25,7 +25,14 @@ function trackVercelEvent(name, data = {}) {
   });
 }
 
+function trackMetaContact() {
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "Contact");
+  }
+}
+
 document.querySelector(".section-whatsapp")?.addEventListener("click", () => {
+  trackMetaContact();
   trackVercelEvent("yemian_ws", {
     button_location: "inline",
     button_location_zh: "页面内容区",
@@ -33,6 +40,7 @@ document.querySelector(".section-whatsapp")?.addEventListener("click", () => {
 });
 
 document.querySelector(".floating-whatsapp")?.addEventListener("click", () => {
+  trackMetaContact();
   trackVercelEvent("dibu_ws", {
     button_location: "floating",
     button_location_zh: "底部悬浮",
