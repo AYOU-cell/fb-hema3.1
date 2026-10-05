@@ -85,7 +85,7 @@
           Für Anleger ab 55
         </div>
 
-        <h1 id="page-title">Ihr Geld von 2022: Wie viel ist heute noch davon übrig?</h1>
+        <h1 id="page-title">Ihre Ersparnisse 2022: Wie stark ist die Kaufkraft gesunken?</h1>
 
         <p class="intro-copy">
           Wer rund 10.000 angespart hat, sollte diese Informationen beachten.
@@ -105,7 +105,6 @@
               placeholder="Geben Sie Ihren Betrag ein"
               autocomplete="off"
             />
-            <span aria-hidden="true">€</span>
           </div>
 
           <div class="preset-group" aria-label="Voreingestellte Beträge">
@@ -119,23 +118,31 @@
             <h3 class="result-heading">Berechnungsergebnis</h3>
             <div class="result-item">
               <span class="result-label">Aktueller Wert</span>
-              <strong id="current-value">Keine Daten</strong>
+              <strong id="current-value">
+                <span class="value-number">Keine Daten</span>
+                <span class="inline-loss" id="current-loss-inline"></span>
+              </strong>
             </div>
             <div class="result-item result-loss">
               <span class="result-label">Wert im Jahr 2027</span>
-              <strong id="future-value">Keine Daten</strong>
-            </div>
-            <div class="result-item result-loss-amount">
-              <span class="result-label">Verlustbetrag</span>
-              <strong id="loss-amount">Keine Daten</strong>
+              <strong id="future-value">
+                <span class="value-number">Keine Daten</span>
+                <span class="inline-loss" id="future-loss-inline"></span>
+              </strong>
             </div>
           </div>
 
           <p class="calculator-note">
             Berechnung auf Grundlage des Verbraucherpreisindex des Statistischen Bundesamtes:
-            Jahresdurchschnitt 2022 und Indexstand August 2026. Rechenbeispiel, nur zur Orientierung.
+            Jahresdurchschnitt 2022 und Indexstand August 2026. Für 2027 wird eine Inflationsannahme
+            von 2,7 % verwendet. Rechenbeispiel, nur zur Orientierung.
           </p>
         </section>
+
+        <p class="solution-context">
+          Die Kaufkraft sinkt von Jahr zu Jahr, und viele Menschen diskutieren darüber, wie dieses
+          Problem angegangen werden kann.
+        </p>
 
         <h2 class="solution-lead">
           Lesen Sie weiter – wir zeigen Ihnen mögliche Lösungsansätze zur Orientierung.

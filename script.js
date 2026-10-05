@@ -4,39 +4,46 @@ if (window.lucide) {
 
 const inflationBaseIndex = 110.2;
 const inflationCurrentIndex = 125.8;
+const inflation2027Rate = 0.027;
+const inflation2027Index = inflationCurrentIndex * (1 + inflation2027Rate);
 const amountInput = document.querySelector("#amount-input");
 const currentValueOutput = document.querySelector("#current-value");
 const futureValueOutput = document.querySelector("#future-value");
-const lossAmountOutput = document.querySelector("#loss-amount");
+const currentValueNumber = currentValueOutput.querySelector(".value-number");
+const futureValueNumber = futureValueOutput.querySelector(".value-number");
+const currentLossInline = document.querySelector("#current-loss-inline");
+const futureLossInline = document.querySelector("#future-loss-inline");
 const presetButtons = document.querySelectorAll("[data-amount]");
 
-const formatEuro = (amount) =>
+const formatAmount = (amount) =>
   new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
     maximumFractionDigits: 0,
   }).format(amount);
 
 function updateInflationResult(amount) {
   const hasAmount = Number.isFinite(amount) && amount > 0;
   const normalizedAmount = hasAmount ? amount : 0;
-  const remainingRatio = inflationBaseIndex / inflationCurrentIndex;
-  const currentValue = normalizedAmount * remainingRatio;
-  const lossAmount = normalizedAmount - currentValue;
+  const currentRatio = inflationBaseIndex / inflationCurrentIndex;
+  const futureRatio = inflationBaseIndex / inflation2027Index;
+  const currentValue = normalizedAmount * currentRatio;
+  const futureValue = normalizedAmount * futureRatio;
+  const currentLossAmount = normalizedAmount - currentValue;
+  const futureLossAmount = normalizedAmount - futureValue;
 
   if (hasAmount) {
-    currentValueOutput.textContent = formatEuro(currentValue);
-    futureValueOutput.textContent = formatEuro(currentValue);
-    lossAmountOutput.textContent = `-${formatEuro(lossAmount).replace("-", "")}`;
+    currentValueNumber.textContent = formatAmount(currentValue);
+    futureValueNumber.textContent = formatAmount(futureValue);
+    currentLossInline.textContent = `(-${formatAmount(currentLossAmount)})`;
+    futureLossInline.textContent = `(-${formatAmount(futureLossAmount)})`;
   } else {
-    currentValueOutput.textContent = "Keine Daten";
-    futureValueOutput.textContent = "Keine Daten";
-    lossAmountOutput.textContent = "Keine Daten";
+    currentValueNumber.textContent = "Keine Daten";
+    futureValueNumber.textContent = "Keine Daten";
+    currentLossInline.textContent = "";
+    futureLossInline.textContent = "";
   }
 
-  currentValueOutput.classList.toggle("is-empty", !hasAmount);
-  futureValueOutput.classList.toggle("is-empty", !hasAmount);
-  lossAmountOutput.classList.toggle("is-empty", !hasAmount);
+  currentValueNumber.classList.toggle("is-empty", !hasAmount);
+  futureValueNumber.classList.toggle("is-empty", !hasAmount);
 
   presetButtons.forEach((button) => {
     button.classList.toggle("is-selected", Number(button.dataset.amount) === normalizedAmount);
