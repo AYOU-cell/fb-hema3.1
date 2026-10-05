@@ -2,6 +2,59 @@ if (window.lucide) {
   window.lucide.createIcons();
 }
 
+const inflationBaseIndex = 110.2;
+const inflationCurrentIndex = 125.8;
+const amountInput = document.querySelector("#amount-input");
+const currentValueOutput = document.querySelector("#current-value");
+const lossPercentOutput = document.querySelector("#loss-percent");
+const presetButtons = document.querySelectorAll("[data-amount]");
+
+const formatEuro = (amount) =>
+  new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+
+function updateInflationResult(amount) {
+  const hasAmount = Number.isFinite(amount) && amount > 0;
+  const normalizedAmount = hasAmount ? amount : 0;
+  const remainingRatio = inflationBaseIndex / inflationCurrentIndex;
+  const currentValue = normalizedAmount * remainingRatio;
+  const lossPercent = (1 - remainingRatio) * 100;
+
+  if (hasAmount) {
+    currentValueOutput.textContent = formatEuro(currentValue);
+    lossPercentOutput.textContent = `${lossPercent.toLocaleString("de-DE", {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    })} %`;
+  } else {
+    currentValueOutput.textContent = "Keine Daten";
+    lossPercentOutput.textContent = "Keine Daten";
+  }
+
+  currentValueOutput.classList.toggle("is-empty", !hasAmount);
+  lossPercentOutput.classList.toggle("is-empty", !hasAmount);
+
+  presetButtons.forEach((button) => {
+    button.classList.toggle("is-selected", Number(button.dataset.amount) === normalizedAmount);
+  });
+}
+
+amountInput?.addEventListener("input", () => {
+  updateInflationResult(Number(amountInput.value));
+});
+
+presetButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    amountInput.value = button.dataset.amount;
+    updateInflationResult(Number(button.dataset.amount));
+  });
+});
+
+updateInflationResult(Number(amountInput?.value || 0));
+
 const vercelEventLabels = {
   yemian_ws: "页面内 WhatsApp 按钮点击",
   dibu_ws: "底部悬浮 WhatsApp 按钮点击",
