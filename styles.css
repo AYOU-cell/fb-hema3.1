@@ -243,7 +243,7 @@ h1 {
 .calculator-result {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -272,6 +272,10 @@ h1 {
   border-left-color: var(--red);
 }
 
+.result-loss-amount {
+  border-left-color: var(--red);
+}
+
 .result-label {
   color: var(--muted);
   font-size: 16px;
@@ -295,6 +299,15 @@ h1 {
 }
 
 .result-loss strong.is-empty {
+  color: #a8b4b0;
+  font-size: 15px;
+}
+
+.result-loss-amount strong {
+  color: var(--red);
+}
+
+.result-loss-amount strong.is-empty {
   color: #a8b4b0;
   font-size: 15px;
 }
@@ -1014,6 +1027,14 @@ body:has(dialog[open]) {
     gap: 10px;
     padding: 9px 13px 9px 10px;
     font-size: 16px;
+  }
+
+  .calculator-result {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .result-loss-amount {
+    grid-column: 1 / -1;
   }
 
   .experience-copy {

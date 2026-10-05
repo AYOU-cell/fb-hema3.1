@@ -6,7 +6,8 @@ const inflationBaseIndex = 110.2;
 const inflationCurrentIndex = 125.8;
 const amountInput = document.querySelector("#amount-input");
 const currentValueOutput = document.querySelector("#current-value");
-const lossPercentOutput = document.querySelector("#loss-percent");
+const futureValueOutput = document.querySelector("#future-value");
+const lossAmountOutput = document.querySelector("#loss-amount");
 const presetButtons = document.querySelectorAll("[data-amount]");
 
 const formatEuro = (amount) =>
@@ -21,21 +22,21 @@ function updateInflationResult(amount) {
   const normalizedAmount = hasAmount ? amount : 0;
   const remainingRatio = inflationBaseIndex / inflationCurrentIndex;
   const currentValue = normalizedAmount * remainingRatio;
-  const lossPercent = (1 - remainingRatio) * 100;
+  const lossAmount = normalizedAmount - currentValue;
 
   if (hasAmount) {
     currentValueOutput.textContent = formatEuro(currentValue);
-    lossPercentOutput.textContent = `${lossPercent.toLocaleString("de-DE", {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    })} %`;
+    futureValueOutput.textContent = formatEuro(currentValue);
+    lossAmountOutput.textContent = `-${formatEuro(lossAmount).replace("-", "")}`;
   } else {
     currentValueOutput.textContent = "Keine Daten";
-    lossPercentOutput.textContent = "Keine Daten";
+    futureValueOutput.textContent = "Keine Daten";
+    lossAmountOutput.textContent = "Keine Daten";
   }
 
   currentValueOutput.classList.toggle("is-empty", !hasAmount);
-  lossPercentOutput.classList.toggle("is-empty", !hasAmount);
+  futureValueOutput.classList.toggle("is-empty", !hasAmount);
+  lossAmountOutput.classList.toggle("is-empty", !hasAmount);
 
   presetButtons.forEach((button) => {
     button.classList.toggle("is-selected", Number(button.dataset.amount) === normalizedAmount);
