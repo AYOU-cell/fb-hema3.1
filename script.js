@@ -14,6 +14,7 @@ const futureValueNumber = futureValueOutput.querySelector(".value-number");
 const currentLossInline = document.querySelector("#current-loss-inline");
 const futureLossInline = document.querySelector("#future-loss-inline");
 const presetButtons = document.querySelectorAll("[data-amount]");
+let amountInputTracked = false;
 
 const formatAmount = (amount) =>
   new Intl.NumberFormat("de-DE", {
@@ -51,13 +52,17 @@ function updateInflationResult(amount) {
 }
 
 amountInput?.addEventListener("input", () => {
-  updateInflationResult(Number(amountInput.value));
+  const amount = Number(amountInput.value);
+  updateInflationResult(amount);
+  trackAmountInput(amount, "manual");
 });
 
 presetButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    const amount = Number(button.dataset.amount);
     amountInput.value = button.dataset.amount;
-    updateInflationResult(Number(button.dataset.amount));
+    updateInflationResult(amount);
+    trackAmountInput(amount, "preset");
   });
 });
 
@@ -66,6 +71,7 @@ updateInflationResult(Number(amountInput?.value || 0));
 const vercelEventLabels = {
   yemian_ws: "页面内 WhatsApp 按钮点击",
   dibu_ws: "底部悬浮 WhatsApp 按钮点击",
+  shuru_jine: "输入金额",
   tingliu_10s: "停留超过 10 秒",
   tingliu_30s: "停留超过 30 秒",
   tingliu_60s: "停留超过 60 秒",
@@ -83,6 +89,18 @@ function trackVercelEvent(name, data = {}) {
       label: vercelEventLabels[name] || name,
       ...data,
     },
+  });
+}
+
+function trackAmountInput(amount, source) {
+  if (amountInputTracked || !Number.isFinite(amount) || amount <= 0) {
+    return;
+  }
+
+  amountInputTracked = true;
+  trackVercelEvent("shuru_jine", {
+    input_source: source,
+    input_source_zh: source === "preset" ? "预设金额按钮" : "金额输入框",
   });
 }
 
