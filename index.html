@@ -94,6 +94,26 @@
             <button type="button" class="preset-button" data-amount="10000">10.000</button>
             <button type="button" class="preset-button" data-amount="25000">25.000</button>
             <button type="button" class="preset-button" data-amount="50000">50.000</button>
+            <button
+              type="button"
+              class="preset-button custom-amount-toggle"
+              aria-controls="custom-amount-field"
+              aria-expanded="false"
+            >
+              Anderer Betrag
+            </button>
+          </div>
+          <div class="custom-amount-field" id="custom-amount-field" hidden>
+            <label for="custom-amount-input">Anderen Betrag eingeben</label>
+            <input
+              id="custom-amount-input"
+              type="number"
+              inputmode="decimal"
+              min="1"
+              step="100"
+              placeholder="Betrag eingeben"
+              autocomplete="off"
+            />
           </div>
           <p class="auto-match-note" role="status" aria-live="polite" hidden>
             Betrag automatisch ausgewählt (10.000)
@@ -105,9 +125,9 @@
               <span class="result-label">Aktueller Wert</span>
               <strong id="current-value">
                 <span class="value-number">Keine Daten</span>
-                <span class="inline-loss" id="current-loss-inline"></span>
               </strong>
             </div>
+            <span class="result-arrow" aria-hidden="true">→</span>
             <div class="result-item result-loss">
               <span class="result-label">Wert in fünf Jahren</span>
               <strong id="future-value">
@@ -125,14 +145,17 @@
 
           <div class="calculator-whatsapp-pitch" hidden>
             <p>
-              Das Geld gewöhnlicher Sparer könnte in den nächsten fünf Jahren durch Inflation
-              10–15 % an Wert verlieren.
+              Das Ersparte gewöhnlicher Sparer könnte in den kommenden fünf Jahren
+              inflationsbedingt 20–25 % an Kaufkraft verlieren.
             </p>
             <p>
-              In unserer Gruppe teilen wir reale Rechenbeispiele, die zeigen, wie sich dieser
-              Verlust deutlich reduzieren lässt.
+              In unserer WhatsApp-Gruppe teilen wir Ansätze zur Optimierung der Vermögensstruktur.
+              Beispielrechnungen zeigen, dass sich die Kaufkraft in bestimmten Szenarien um mehr
+              als 35 % verbessern kann.
             </p>
-            <p>Kostenlose Ansätze – ausschließlich in der Gruppe geteilt.</p>
+            <p>
+              Kostenlose Ansätze, ausschließlich in der Gruppe geteilt. Keine Anlageberatung.
+            </p>
           </div>
 
           <a
@@ -152,6 +175,7 @@
             </span>
             <span>Lösungen gegen Inflation ansehen →</span>
           </a>
+          <p class="calculator-whatsapp-note" hidden>Sicher &amp; kostenlos. Kein Spam.</p>
         </section>
 
         <p class="solution-context">
@@ -169,23 +193,6 @@
           Sie, wie andere dabei vorgehen. und entdecken Sie die Erfahrungen anderer zum Schutz vor
           Inflation.
         </p>
-
-        <a
-          class="section-whatsapp"
-          href="https://chat.whatsapp.com/FJmD0wVo4cd0LVuyhLuUQq"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-button-location="content"
-        >
-          <span class="section-whatsapp-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32">
-              <path
-                d="M16.05 3.2A12.7 12.7 0 0 0 5.14 22.42L3.4 28.8l6.54-1.71A12.7 12.7 0 1 0 16.05 3.2Zm0 22.98a10.5 10.5 0 0 1-5.35-1.46l-.38-.23-3.88 1.02 1.04-3.78-.25-.39a10.48 10.48 0 1 1 8.82 4.84Zm5.75-7.86c-.31-.16-1.86-.92-2.15-1.02-.29-.11-.5-.16-.71.16-.21.31-.81 1.02-.99 1.23-.18.21-.37.24-.68.08-.31-.16-1.33-.49-2.53-1.56a9.5 9.5 0 0 1-1.75-2.18c-.18-.31-.02-.48.14-.64.14-.14.31-.37.47-.55.16-.18.21-.31.31-.52.11-.21.05-.39-.03-.55-.08-.16-.71-1.71-.97-2.34-.26-.62-.52-.54-.71-.55h-.6c-.21 0-.55.08-.84.39-.29.31-1.1 1.08-1.1 2.63s1.13 3.05 1.29 3.26c.16.21 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.66.76.24 1.44.21 1.98.13.61-.09 1.86-.76 2.12-1.5.26-.73.26-1.36.18-1.49-.08-.13-.29-.21-.6-.37Z"
-              />
-            </svg>
-          </span>
-          <span>Lösungen gegen Inflation ansehen →</span>
-        </a>
 
         <div class="group-downloads">
           <p class="group-downloads-intro">

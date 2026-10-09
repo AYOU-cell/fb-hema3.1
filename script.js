@@ -2,19 +2,20 @@ if (window.lucide) {
   window.lucide.createIcons();
 }
 
-const inflationBaseIndex = 110.2;
-const inflationSeptember2026Index = 125.8 * 1.006;
 const annualInflationAssumption = 0.027;
 const fiveYearInflationFactor = (1 + annualInflationAssumption) ** 5;
 const currentValueOutput = document.querySelector("#current-value");
 const futureValueOutput = document.querySelector("#future-value");
 const currentValueNumber = currentValueOutput.querySelector(".value-number");
 const futureValueNumber = futureValueOutput.querySelector(".value-number");
-const currentLossInline = document.querySelector("#current-loss-inline");
 const futureLossInline = document.querySelector("#future-loss-inline");
 const presetButtons = document.querySelectorAll("[data-amount]");
+const customAmountToggle = document.querySelector(".custom-amount-toggle");
+const customAmountField = document.querySelector(".custom-amount-field");
+const customAmountInput = document.querySelector("#custom-amount-input");
 const calculatorWhatsapp = document.querySelector(".calculator-whatsapp");
 const calculatorWhatsappPitch = document.querySelector(".calculator-whatsapp-pitch");
+const calculatorWhatsappNote = document.querySelector(".calculator-whatsapp-note");
 const autoMatchNote = document.querySelector(".auto-match-note");
 let amountInputTracked = false;
 let amountManuallySelected = false;
@@ -27,22 +28,17 @@ const formatAmount = (amount) =>
 function updateInflationResult(amount) {
   const hasAmount = Number.isFinite(amount) && amount > 0;
   const normalizedAmount = hasAmount ? amount : 0;
-  const currentRatio = inflationBaseIndex / inflationSeptember2026Index;
-  const futureRatio = currentRatio / fiveYearInflationFactor;
-  const currentValue = normalizedAmount * currentRatio;
-  const futureValue = normalizedAmount * futureRatio;
-  const currentLossAmount = normalizedAmount - currentValue;
+  const currentValue = normalizedAmount;
+  const futureValue = normalizedAmount / fiveYearInflationFactor;
   const futureLossAmount = normalizedAmount - futureValue;
 
   if (hasAmount) {
     currentValueNumber.textContent = formatAmount(currentValue);
     futureValueNumber.textContent = formatAmount(futureValue);
-    currentLossInline.textContent = `(-${formatAmount(currentLossAmount)})`;
     futureLossInline.textContent = `(-${formatAmount(futureLossAmount)})`;
   } else {
     currentValueNumber.textContent = "Keine Daten";
     futureValueNumber.textContent = "Keine Daten";
-    currentLossInline.textContent = "";
     futureLossInline.textContent = "";
   }
 
@@ -50,6 +46,7 @@ function updateInflationResult(amount) {
   futureValueNumber.classList.toggle("is-empty", !hasAmount);
   calculatorWhatsapp.hidden = !hasAmount;
   calculatorWhatsappPitch.hidden = !hasAmount;
+  calculatorWhatsappNote.hidden = !hasAmount;
 
   presetButtons.forEach((button) => {
     button.classList.toggle("is-selected", Number(button.dataset.amount) === normalizedAmount);
@@ -61,9 +58,31 @@ presetButtons.forEach((button) => {
     const amount = Number(button.dataset.amount);
     amountManuallySelected = true;
     autoMatchNote.hidden = true;
+    customAmountField.hidden = true;
+    customAmountToggle.setAttribute("aria-expanded", "false");
+    customAmountToggle.classList.remove("is-selected");
     updateInflationResult(amount);
     trackAmountInput(amount, "preset");
   });
+});
+
+customAmountToggle.addEventListener("click", () => {
+  amountManuallySelected = true;
+  autoMatchNote.hidden = true;
+  customAmountField.hidden = false;
+  customAmountToggle.setAttribute("aria-expanded", "true");
+  customAmountToggle.classList.add("is-selected");
+  presetButtons.forEach((button) => button.classList.remove("is-selected"));
+  customAmountInput.value = "";
+  updateInflationResult(0);
+  customAmountInput.focus();
+});
+
+customAmountInput.addEventListener("input", () => {
+  const amount = Number(customAmountInput.value);
+  updateInflationResult(amount);
+  customAmountToggle.classList.toggle("is-selected", Number.isFinite(amount) && amount > 0);
+  trackAmountInput(amount, "manual");
 });
 
 updateInflationResult(0);
@@ -75,6 +94,44 @@ window.setTimeout(() => {
 
   updateInflationResult(10_000);
   autoMatchNote.hidden = false;
+}, 5_000);
+
+const solutionLead = document.querySelector(".solution-lead");
+let firstScreenInteracted = false;
+
+const markFirstScreenInteraction = () => {
+  firstScreenInteracted = true;
+};
+
+["pointerdown", "keydown", "touchstart", "wheel"].forEach((eventName) => {
+  window.addEventListener(eventName, markFirstScreenInteraction, {
+    once: true,
+    passive: true,
+  });
+});
+
+window.addEventListener(
+  "scroll",
+  () => {
+    if (window.scrollY > 20) {
+      markFirstScreenInteraction();
+    }
+  },
+  { passive: true },
+);
+
+window.setTimeout(() => {
+  if (firstScreenInteracted || window.scrollY > 20 || !solutionLead) {
+    return;
+  }
+
+  const targetTop =
+    window.scrollY + solutionLead.getBoundingClientRect().bottom - window.innerHeight + 12;
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: "smooth",
+  });
 }, 5_000);
 
 const vercelEventLabels = {
@@ -109,7 +166,7 @@ function trackAmountInput(amount, source) {
   amountInputTracked = true;
   trackVercelEvent("shuru_jine", {
     input_source: source,
-    input_source_zh: "预设金额按钮",
+    input_source_zh: source === "manual" ? "其他金额输入框" : "预设金额按钮",
   });
 }
 
@@ -164,6 +221,27 @@ if (inlineWhatsappButtons.length && floatingWhatsapp && "IntersectionObserver" i
     floatingWhatsapp.setAttribute("aria-hidden", String(!visible));
   };
 
+  const syncFloatingVisibility = () => {
+    let hasVisibleInlineButton = false;
+
+    inlineWhatsappButtons.forEach((button) => {
+      if (button.hidden) {
+        return;
+      }
+
+      const rect = button.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        inlineHasBeenSeen = true;
+      }
+
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        hasVisibleInlineButton = true;
+      }
+    });
+
+    setFloatingVisibility(inlineHasBeenSeen && !hasVisibleInlineButton);
+  };
+
   const whatsappObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -172,6 +250,9 @@ if (inlineWhatsappButtons.length && floatingWhatsapp && "IntersectionObserver" i
           visibleInlineButtons.add(entry.target);
         } else {
           visibleInlineButtons.delete(entry.target);
+          if (entry.boundingClientRect.bottom < 0) {
+            inlineHasBeenSeen = true;
+          }
         }
       });
 
@@ -181,6 +262,8 @@ if (inlineWhatsappButtons.length && floatingWhatsapp && "IntersectionObserver" i
   );
 
   inlineWhatsappButtons.forEach((button) => whatsappObserver.observe(button));
+  window.addEventListener("scroll", syncFloatingVisibility, { passive: true });
+  window.addEventListener("resize", syncFloatingVisibility);
 }
 
 if (documentsSection && "IntersectionObserver" in window) {

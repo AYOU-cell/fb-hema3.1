@@ -172,7 +172,7 @@ h1 {
 
 .preset-group {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -184,6 +184,7 @@ h1 {
   background: #fff;
   font-size: 15px;
   font-weight: 800;
+  line-height: 1.2;
   cursor: pointer;
 }
 
@@ -192,6 +193,50 @@ h1 {
   border-color: #0b806d;
   color: #fff;
   background: #0b806d;
+}
+
+.custom-amount-toggle {
+  padding: 6px;
+  font-size: 13px;
+}
+
+.custom-amount-field {
+  margin-top: 10px;
+}
+
+.custom-amount-field[hidden] {
+  display: none;
+}
+
+.custom-amount-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #174b36;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.custom-amount-field input {
+  width: 100%;
+  padding: 11px 13px;
+  border: 2px solid #9bcab5;
+  border-radius: 6px;
+  outline: 0;
+  color: var(--ink);
+  background: #fff;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.custom-amount-field input:focus {
+  border-color: var(--green-bright);
+  box-shadow: 0 0 0 3px rgba(16, 185, 105, 0.14);
+}
+
+.custom-amount-field input::placeholder {
+  color: #a8b4b0;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .auto-match-note {
@@ -209,8 +254,9 @@ h1 {
 .calculator-result {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0;
 }
 
 .calculator-result[hidden] {
@@ -225,13 +271,23 @@ h1 {
 }
 
 .result-item {
+  position: relative;
   min-height: 84px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 13px 15px;
   border-left: 4px solid #0b806d;
   background: #fff;
+}
+
+.result-arrow {
+  display: grid;
+  place-items: center;
+  color: var(--red);
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1;
 }
 
 .result-loss {
@@ -239,6 +295,9 @@ h1 {
 }
 
 .result-label {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
   color: var(--muted);
   font-size: 16px;
   font-weight: 700;
@@ -255,15 +314,11 @@ h1 {
 
 #current-value,
 #current-value .value-number {
-  color: var(--red);
+  color: var(--ink);
 }
 
 #current-value .value-number.is-empty {
   color: #a8b4b0;
-}
-
-#current-loss-inline {
-  font-size: 0.78em;
 }
 
 .result-item strong .value-number.is-empty {
@@ -291,8 +346,30 @@ h1 {
   line-height: 1.45;
 }
 
+#future-loss-inline {
+  font-size: 0.78em;
+}
+
 .calculator-whatsapp {
   margin-top: 17px;
+  animation: whatsapp-breathe 1.5s ease-in-out infinite;
+  box-shadow:
+    0 7px 0 rgba(0, 0, 0, 0.38),
+    0 13px 24px rgba(0, 0, 0, 0.22);
+}
+
+.calculator-whatsapp:hover {
+  box-shadow:
+    0 5px 0 rgba(0, 0, 0, 0.4),
+    0 11px 22px rgba(0, 0, 0, 0.24);
+  transform: translateY(2px);
+}
+
+.calculator-whatsapp:active {
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.42),
+    0 6px 14px rgba(0, 0, 0, 0.22);
+  transform: translateY(5px);
 }
 
 .calculator-whatsapp-pitch {
@@ -301,7 +378,7 @@ h1 {
   border-left: 4px solid var(--red);
   background: #fff;
   color: #35403e;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.5;
 }
@@ -319,9 +396,29 @@ h1 {
   font-weight: 800;
 }
 
+.calculator-whatsapp-note {
+  margin: 10px 0 0;
+  color: #557068;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
 .calculator-whatsapp-pitch[hidden],
-.calculator-whatsapp[hidden] {
+.calculator-whatsapp[hidden],
+.calculator-whatsapp-note[hidden] {
   display: none;
+}
+
+@keyframes whatsapp-breathe {
+  0%,
+  100% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.035;
+  }
 }
 
 .solution-context {
@@ -847,6 +944,10 @@ address a:hover,
 }
 
 .floating-whatsapp.is-visible {
+  animation: whatsapp-breathe 1.5s ease-in-out infinite;
+}
+
+.floating-whatsapp.is-visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -1045,7 +1146,7 @@ body:has(dialog[open]) {
   }
 
   .calculator-result {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
   }
 
   .inline-loss {
