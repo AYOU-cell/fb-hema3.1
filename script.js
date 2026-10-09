@@ -13,6 +13,7 @@ const futureValueNumber = futureValueOutput.querySelector(".value-number");
 const currentLossInline = document.querySelector("#current-loss-inline");
 const futureLossInline = document.querySelector("#future-loss-inline");
 const presetButtons = document.querySelectorAll("[data-amount]");
+const calculatorWhatsapp = document.querySelector(".calculator-whatsapp");
 let amountInputTracked = false;
 
 const formatAmount = (amount) =>
@@ -44,6 +45,7 @@ function updateInflationResult(amount) {
 
   currentValueNumber.classList.toggle("is-empty", !hasAmount);
   futureValueNumber.classList.toggle("is-empty", !hasAmount);
+  calculatorWhatsapp.hidden = !hasAmount;
 
   presetButtons.forEach((button) => {
     button.classList.toggle("is-selected", Number(button.dataset.amount) === normalizedAmount);
