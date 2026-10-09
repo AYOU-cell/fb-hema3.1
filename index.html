@@ -89,10 +89,10 @@
         <section class="value-calculator" aria-labelledby="calculator-title">
           <h2 id="calculator-title">Inflationsrechner</h2>
 
+          <p class="preset-label">Bitte wählen Sie einen Betrag</p>
           <div class="preset-group" aria-label="Voreingestellte Beträge">
-            <button type="button" class="preset-button" data-amount="5000">5.000</button>
             <button type="button" class="preset-button" data-amount="10000">10.000</button>
-            <button type="button" class="preset-button" data-amount="20000">20.000</button>
+            <button type="button" class="preset-button" data-amount="25000">25.000</button>
             <button type="button" class="preset-button" data-amount="50000">50.000</button>
           </div>
           <p class="auto-match-note" role="status" aria-live="polite" hidden>
@@ -109,7 +109,7 @@
               </strong>
             </div>
             <div class="result-item result-loss">
-              <span class="result-label">Wert im Jahr 2027</span>
+              <span class="result-label">Wert in fünf Jahren</span>
               <strong id="future-value">
                 <span class="value-number">Keine Daten</span>
                 <span class="inline-loss" id="future-loss-inline"></span>
@@ -119,9 +119,21 @@
 
           <p class="calculator-note">
             Berechnung auf Grundlage des Verbraucherpreisindex des Statistischen Bundesamtes:
-            Jahresdurchschnitt 2022 und Indexstand August 2026. Für 2027 wird eine Inflationsannahme
-            von 2,7 % verwendet. Rechenbeispiel, nur zur Orientierung.
+            Indexstand September 2026. Für die kommenden fünf Jahre wird eine jährliche
+            Inflationsrate von 2,7 % angenommen. Rechenbeispiel, nur zur Orientierung.
           </p>
+
+          <div class="calculator-whatsapp-pitch" hidden>
+            <p>
+              Das Geld gewöhnlicher Sparer könnte in den nächsten fünf Jahren durch Inflation
+              10–15 % an Wert verlieren.
+            </p>
+            <p>
+              In unserer Gruppe teilen wir reale Rechenbeispiele, die zeigen, wie sich dieser
+              Verlust deutlich reduzieren lässt.
+            </p>
+            <p>Kostenlose Ansätze – ausschließlich in der Gruppe geteilt.</p>
+          </div>
 
           <a
             class="section-whatsapp calculator-whatsapp"
@@ -138,7 +150,7 @@
                 />
               </svg>
             </span>
-            <span>WhatsApp-Gruppe beitreten →</span>
+            <span>Lösungen gegen Inflation ansehen →</span>
           </a>
         </section>
 
@@ -172,13 +184,13 @@
               />
             </svg>
           </span>
-          <span>Erfahrungen austauschen →</span>
+          <span>Lösungen gegen Inflation ansehen →</span>
         </a>
 
         <div class="group-downloads">
           <p class="group-downloads-intro">
-            Klicken Sie auf die obige Schaltfläche (Erfahrungen austauschen →), um der WhatsApp-Gruppe
-            beizutreten und die folgenden beiden Dokumente kostenlos zu erhalten:
+            Klicken Sie auf die obige Schaltfläche (Lösungen gegen Inflation ansehen →), um der
+            WhatsApp-Gruppe beizutreten und die folgenden beiden Dokumente kostenlos zu erhalten:
           </p>
 
           <div class="download-list">
@@ -314,7 +326,7 @@
           <button type="button" data-modal-open="sources-modal">Quellen</button>
         </nav>
 
-        <p class="footer-date">Stand: 1. Oktober 2026</p>
+        <p class="footer-date">Stand: 10. Oktober 2026</p>
 
       </div>
     </footer>
@@ -324,7 +336,7 @@
       href="https://chat.whatsapp.com/FJmD0wVo4cd0LVuyhLuUQq"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Der WhatsApp-Gruppe beitreten"
+      aria-label="Lösungen gegen Inflation ansehen"
       aria-hidden="true"
     >
       <span class="floating-whatsapp-icon" aria-hidden="true">
@@ -336,7 +348,7 @@
       </span>
       <span class="floating-whatsapp-copy">
         <small>WhatsApp-Community</small>
-        <strong>WhatsApp-Gruppe beitreten</strong>
+        <strong>Lösungen gegen Inflation ansehen</strong>
       </span>
     </a>
 
@@ -352,7 +364,7 @@
       </div>
       <div class="modal-body">
         <h2 id="privacy-title">Datenschutzerklärung</h2>
-        <p class="modal-date">Stand: 1. Oktober 2026</p>
+        <p class="modal-date">Stand: 10. Oktober 2026</p>
 
         <h3>1. Verantwortlicher</h3>
         <p>
@@ -392,8 +404,8 @@
 
         <h3>5. Weiterleitung zu WhatsApp</h3>
         <p>
-          Über die Schaltfläche „Kostenlos anmelden“ verlassen Sie diese Website und werden zu
-          einem Angebot von WhatsApp weitergeleitet. Erst nach dem Anklicken können Daten,
+          Über die Schaltfläche „Lösungen gegen Inflation ansehen“ verlassen Sie diese Website und
+          werden zu einem Angebot von WhatsApp weitergeleitet. Erst nach dem Anklicken können Daten,
           insbesondere Ihre IP-Adresse und weitere Geräteinformationen, an WhatsApp beziehungsweise
           dessen Anbieter übermittelt werden. Für die dortige Verarbeitung gelten die
           Datenschutzbestimmungen des jeweiligen Anbieters. Die Nutzung ist freiwillig.
@@ -494,9 +506,10 @@
       <div class="modal-body">
         <h2 id="sources-title">Quellen und Methodik</h2>
         <p>
-          Die Grafik ist eine vereinfachte Modellrechnung zur Veranschaulichung eines möglichen
-          Kaufkraftverlusts. Ausgangswert sind 100.000, der dargestellte Endwert beträgt
-          85.000. Zwischenwerte sind illustrativ gerundet.
+          Die Modellrechnung verwendet den Verbraucherpreisindex des Statistischen Bundesamtes,
+          den Jahresdurchschnitt 2022 als Ausgangsbasis und den Indexstand September 2026 für den
+          aktuellen Kaufkraftvergleich. Für die Projektion über fünf Jahre wird eine jährliche
+          Inflationsrate von 2,7 % angenommen. Die dargestellten Beträge sind gerundet.
         </p>
         <p>
           Für belastbare aktuelle Inflationsdaten sollten die Veröffentlichungen des

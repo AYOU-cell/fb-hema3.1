@@ -3,9 +3,9 @@ if (window.lucide) {
 }
 
 const inflationBaseIndex = 110.2;
-const inflationCurrentIndex = 125.8;
-const inflation2027Rate = 0.027;
-const inflation2027Index = inflationCurrentIndex * (1 + inflation2027Rate);
+const inflationSeptember2026Index = 125.8 * 1.006;
+const annualInflationAssumption = 0.027;
+const fiveYearInflationFactor = (1 + annualInflationAssumption) ** 5;
 const currentValueOutput = document.querySelector("#current-value");
 const futureValueOutput = document.querySelector("#future-value");
 const currentValueNumber = currentValueOutput.querySelector(".value-number");
@@ -14,6 +14,7 @@ const currentLossInline = document.querySelector("#current-loss-inline");
 const futureLossInline = document.querySelector("#future-loss-inline");
 const presetButtons = document.querySelectorAll("[data-amount]");
 const calculatorWhatsapp = document.querySelector(".calculator-whatsapp");
+const calculatorWhatsappPitch = document.querySelector(".calculator-whatsapp-pitch");
 const autoMatchNote = document.querySelector(".auto-match-note");
 let amountInputTracked = false;
 let amountManuallySelected = false;
@@ -26,8 +27,8 @@ const formatAmount = (amount) =>
 function updateInflationResult(amount) {
   const hasAmount = Number.isFinite(amount) && amount > 0;
   const normalizedAmount = hasAmount ? amount : 0;
-  const currentRatio = inflationBaseIndex / inflationCurrentIndex;
-  const futureRatio = inflationBaseIndex / inflation2027Index;
+  const currentRatio = inflationBaseIndex / inflationSeptember2026Index;
+  const futureRatio = currentRatio / fiveYearInflationFactor;
   const currentValue = normalizedAmount * currentRatio;
   const futureValue = normalizedAmount * futureRatio;
   const currentLossAmount = normalizedAmount - currentValue;
@@ -48,6 +49,7 @@ function updateInflationResult(amount) {
   currentValueNumber.classList.toggle("is-empty", !hasAmount);
   futureValueNumber.classList.toggle("is-empty", !hasAmount);
   calculatorWhatsapp.hidden = !hasAmount;
+  calculatorWhatsappPitch.hidden = !hasAmount;
 
   presetButtons.forEach((button) => {
     button.classList.toggle("is-selected", Number(button.dataset.amount) === normalizedAmount);

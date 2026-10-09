@@ -162,9 +162,17 @@ h1 {
   display: none;
 }
 
+.preset-label {
+  margin: 0 0 9px;
+  color: #174b36;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+}
+
 .preset-group {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
 
@@ -245,6 +253,19 @@ h1 {
   white-space: nowrap;
 }
 
+#current-value,
+#current-value .value-number {
+  color: var(--red);
+}
+
+#current-value .value-number.is-empty {
+  color: #a8b4b0;
+}
+
+#current-loss-inline {
+  font-size: 0.78em;
+}
+
 .result-item strong .value-number.is-empty {
   color: #a8b4b0;
   font-size: 15px;
@@ -274,6 +295,31 @@ h1 {
   margin-top: 17px;
 }
 
+.calculator-whatsapp-pitch {
+  margin-top: 17px;
+  padding: 14px 15px;
+  border-left: 4px solid var(--red);
+  background: #fff;
+  color: #35403e;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.calculator-whatsapp-pitch p {
+  margin: 0;
+}
+
+.calculator-whatsapp-pitch p + p {
+  margin-top: 8px;
+}
+
+.calculator-whatsapp-pitch p:last-child {
+  color: #174b36;
+  font-weight: 800;
+}
+
+.calculator-whatsapp-pitch[hidden],
 .calculator-whatsapp[hidden] {
   display: none;
 }
