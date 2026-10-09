@@ -14,7 +14,9 @@ const currentLossInline = document.querySelector("#current-loss-inline");
 const futureLossInline = document.querySelector("#future-loss-inline");
 const presetButtons = document.querySelectorAll("[data-amount]");
 const calculatorWhatsapp = document.querySelector(".calculator-whatsapp");
+const autoMatchNote = document.querySelector(".auto-match-note");
 let amountInputTracked = false;
+let amountManuallySelected = false;
 
 const formatAmount = (amount) =>
   new Intl.NumberFormat("de-DE", {
@@ -55,12 +57,23 @@ function updateInflationResult(amount) {
 presetButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const amount = Number(button.dataset.amount);
+    amountManuallySelected = true;
+    autoMatchNote.hidden = true;
     updateInflationResult(amount);
     trackAmountInput(amount, "preset");
   });
 });
 
 updateInflationResult(0);
+
+window.setTimeout(() => {
+  if (amountManuallySelected) {
+    return;
+  }
+
+  updateInflationResult(10_000);
+  autoMatchNote.hidden = false;
+}, 5_000);
 
 const vercelEventLabels = {
   yemian_ws: "页面内 WhatsApp 按钮点击",

@@ -186,6 +186,18 @@ h1 {
   background: #0b806d;
 }
 
+.auto-match-note {
+  margin: 9px 0 0;
+  color: #557068;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.auto-match-note[hidden] {
+  display: none;
+}
+
 .calculator-result {
   margin-top: 18px;
   display: grid;
