@@ -6,7 +6,6 @@ const inflationBaseIndex = 110.2;
 const inflationCurrentIndex = 125.8;
 const inflation2027Rate = 0.027;
 const inflation2027Index = inflationCurrentIndex * (1 + inflation2027Rate);
-const amountInput = document.querySelector("#amount-input");
 const currentValueOutput = document.querySelector("#current-value");
 const futureValueOutput = document.querySelector("#future-value");
 const currentValueNumber = currentValueOutput.querySelector(".value-number");
@@ -51,22 +50,15 @@ function updateInflationResult(amount) {
   });
 }
 
-amountInput?.addEventListener("input", () => {
-  const amount = Number(amountInput.value);
-  updateInflationResult(amount);
-  trackAmountInput(amount, "manual");
-});
-
 presetButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const amount = Number(button.dataset.amount);
-    amountInput.value = button.dataset.amount;
     updateInflationResult(amount);
     trackAmountInput(amount, "preset");
   });
 });
 
-updateInflationResult(Number(amountInput?.value || 0));
+updateInflationResult(0);
 
 const vercelEventLabels = {
   yemian_ws: "页面内 WhatsApp 按钮点击",
@@ -100,7 +92,7 @@ function trackAmountInput(amount, source) {
   amountInputTracked = true;
   trackVercelEvent("shuru_jine", {
     input_source: source,
-    input_source_zh: source === "preset" ? "预设金额按钮" : "金额输入框",
+    input_source_zh: "预设金额按钮",
   });
 }
 
@@ -110,11 +102,14 @@ function trackMetaContact() {
   }
 }
 
-document.querySelector(".section-whatsapp")?.addEventListener("click", () => {
-  trackMetaContact();
-  trackVercelEvent("yemian_ws", {
-    button_location: "inline",
-    button_location_zh: "页面内容区",
+document.querySelectorAll(".section-whatsapp").forEach((button) => {
+  button.addEventListener("click", () => {
+    const location = button.dataset.buttonLocation || "content";
+    trackMetaContact();
+    trackVercelEvent("yemian_ws", {
+      button_location: location,
+      button_location_zh: location === "calculator" ? "计算器下方" : "页面内容区",
+    });
   });
 });
 
@@ -140,11 +135,12 @@ document.querySelector(".floating-whatsapp")?.addEventListener("click", () => {
 });
 
 const documentsSection = document.querySelector(".group-downloads");
-const inlineWhatsapp = document.querySelector(".section-whatsapp");
+const inlineWhatsappButtons = document.querySelectorAll(".section-whatsapp");
 const floatingWhatsapp = document.querySelector(".floating-whatsapp");
 
-if (inlineWhatsapp && floatingWhatsapp && "IntersectionObserver" in window) {
+if (inlineWhatsappButtons.length && floatingWhatsapp && "IntersectionObserver" in window) {
   let inlineHasBeenSeen = false;
+  const visibleInlineButtons = new Set();
 
   const setFloatingVisibility = (visible) => {
     floatingWhatsapp.classList.toggle("is-visible", visible);
@@ -152,21 +148,22 @@ if (inlineWhatsapp && floatingWhatsapp && "IntersectionObserver" in window) {
   };
 
   const whatsappObserver = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        inlineHasBeenSeen = true;
-        setFloatingVisibility(false);
-        return;
-      }
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          inlineHasBeenSeen = true;
+          visibleInlineButtons.add(entry.target);
+        } else {
+          visibleInlineButtons.delete(entry.target);
+        }
+      });
 
-      if (inlineHasBeenSeen) {
-        setFloatingVisibility(true);
-      }
+      setFloatingVisibility(inlineHasBeenSeen && visibleInlineButtons.size === 0);
     },
     { threshold: 0.01 },
   );
 
-  whatsappObserver.observe(inlineWhatsapp);
+  inlineWhatsappButtons.forEach((button) => whatsappObserver.observe(button));
 }
 
 if (documentsSection && "IntersectionObserver" in window) {
