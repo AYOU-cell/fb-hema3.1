@@ -97,13 +97,16 @@ window.setTimeout(() => {
 }, 5_000);
 
 const vercelEventLabels = {
-  yemian_ws: "页面内 WhatsApp 按钮点击",
-  dibu_ws: "底部悬浮 WhatsApp 按钮点击",
+  whatsapp_click: "点击 WhatsApp",
   shuru_jine: "输入金额",
   tingliu_10s: "停留超过 10 秒",
+  tingliu_20s: "停留超过 20 秒",
   tingliu_30s: "停留超过 30 秒",
-  tingliu_60s: "停留超过 60 秒",
-  dibu: "滚动到资料区域",
+  diyiping: "浏览到第一屏",
+  dierping: "浏览到第二屏",
+  disanping: "浏览到第三屏",
+  dibu: "滚动到页面底部",
+  ziliaoqu: "浏览到群组资料区域",
 };
 
 function trackVercelEvent(name, data = {}) {
@@ -142,7 +145,7 @@ document.querySelectorAll(".section-whatsapp").forEach((button) => {
   button.addEventListener("click", () => {
     const location = button.dataset.buttonLocation || "content";
     trackMetaContact();
-    trackVercelEvent("yemian_ws", {
+    trackVercelEvent("whatsapp_click", {
       button_location: location,
       button_location_zh: location === "calculator" ? "计算器下方" : "页面内容区",
     });
@@ -151,7 +154,7 @@ document.querySelectorAll(".section-whatsapp").forEach((button) => {
 
 document.querySelector(".floating-whatsapp")?.addEventListener("click", () => {
   trackMetaContact();
-  trackVercelEvent("dibu_ws", {
+  trackVercelEvent("whatsapp_click", {
     button_location: "floating",
     button_location_zh: "底部悬浮",
   });
@@ -159,8 +162,8 @@ document.querySelector(".floating-whatsapp")?.addEventListener("click", () => {
 
 [
   ["tingliu_10s", 10_000],
+  ["tingliu_20s", 20_000],
   ["tingliu_30s", 30_000],
-  ["tingliu_60s", 60_000],
 ].forEach(([eventName, delay]) => {
   window.setTimeout(() => {
     trackVercelEvent(eventName, {
@@ -169,6 +172,33 @@ document.querySelector(".floating-whatsapp")?.addEventListener("click", () => {
     });
   }, delay);
 });
+
+const trackedScrollMilestones = new Set();
+
+function trackScrollMilestones() {
+  const viewportHeight = window.innerHeight;
+  const scrollPosition = window.scrollY;
+  const pageBottom = document.documentElement.scrollHeight - viewportHeight;
+  const milestones = [
+    ["diyiping", scrollPosition < viewportHeight],
+    ["dierping", scrollPosition >= viewportHeight],
+    ["disanping", scrollPosition >= viewportHeight * 2],
+    ["dibu", scrollPosition >= pageBottom - 2],
+  ];
+
+  milestones.forEach(([eventName, reached]) => {
+    if (!reached || trackedScrollMilestones.has(eventName)) {
+      return;
+    }
+
+    trackedScrollMilestones.add(eventName);
+    trackVercelEvent(eventName);
+  });
+}
+
+trackScrollMilestones();
+window.addEventListener("scroll", trackScrollMilestones, { passive: true });
+window.addEventListener("resize", trackScrollMilestones);
 
 const documentsSection = document.querySelector(".group-downloads");
 const inlineWhatsappButtons = document.querySelectorAll(".section-whatsapp");
@@ -232,7 +262,7 @@ if (documentsSection && "IntersectionObserver" in window) {
   const documentsObserver = new IntersectionObserver(
     (entries, observer) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        trackVercelEvent("dibu", {
+        trackVercelEvent("ziliaoqu", {
           section: "documents",
           section_zh: "群组资料",
         });
