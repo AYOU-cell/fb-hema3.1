@@ -254,7 +254,7 @@ h1 {
 .calculator-result {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
   align-items: stretch;
   gap: 0;
 }
@@ -285,7 +285,7 @@ h1 {
   display: grid;
   place-items: center;
   color: var(--red);
-  font-size: 38px;
+  font-size: 50px;
   font-weight: 900;
   line-height: 1;
 }
@@ -1146,7 +1146,11 @@ body:has(dialog[open]) {
   }
 
   .calculator-result {
-    grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+  }
+
+  .result-arrow {
+    font-size: 42px;
   }
 
   .inline-loss {

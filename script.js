@@ -96,44 +96,6 @@ window.setTimeout(() => {
   autoMatchNote.hidden = false;
 }, 5_000);
 
-const solutionLead = document.querySelector(".solution-lead");
-let firstScreenInteracted = false;
-
-const markFirstScreenInteraction = () => {
-  firstScreenInteracted = true;
-};
-
-["pointerdown", "keydown", "touchstart", "wheel"].forEach((eventName) => {
-  window.addEventListener(eventName, markFirstScreenInteraction, {
-    once: true,
-    passive: true,
-  });
-});
-
-window.addEventListener(
-  "scroll",
-  () => {
-    if (window.scrollY > 20) {
-      markFirstScreenInteraction();
-    }
-  },
-  { passive: true },
-);
-
-window.setTimeout(() => {
-  if (firstScreenInteracted || window.scrollY > 20 || !solutionLead) {
-    return;
-  }
-
-  const targetTop =
-    window.scrollY + solutionLead.getBoundingClientRect().bottom - window.innerHeight + 12;
-
-  window.scrollTo({
-    top: Math.max(0, targetTop),
-    behavior: "smooth",
-  });
-}, 5_000);
-
 const vercelEventLabels = {
   yemian_ws: "页面内 WhatsApp 按钮点击",
   dibu_ws: "底部悬浮 WhatsApp 按钮点击",
