@@ -110,17 +110,24 @@ const vercelEventLabels = {
 };
 
 function trackVercelEvent(name, data = {}) {
-  if (typeof window.va !== "function") {
-    return;
+  const label = vercelEventLabels[name] || name;
+
+  if (typeof window.fbq === "function") {
+    window.fbq("trackCustom", name, {
+      event_label_zh: label,
+      ...data,
+    });
   }
 
-  window.va("event", {
-    name,
-    data: {
-      label: vercelEventLabels[name] || name,
-      ...data,
-    },
-  });
+  if (typeof window.va === "function") {
+    window.va("event", {
+      name,
+      data: {
+        label,
+        ...data,
+      },
+    });
+  }
 }
 
 function trackAmountInput(amount, source) {
