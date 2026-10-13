@@ -383,6 +383,13 @@ h1 {
   line-height: 1.5;
 }
 
+.calculator-whatsapp-pitch h3 {
+  margin: 0 0 11px;
+  color: #9f2525;
+  font-size: 19px;
+  line-height: 1.35;
+}
+
 .calculator-whatsapp-pitch p {
   margin: 0;
 }
@@ -391,7 +398,7 @@ h1 {
   margin-top: 8px;
 }
 
-.calculator-whatsapp-pitch p:last-child {
+.calculator-whatsapp-pitch .calculator-whatsapp-disclaimer {
   color: #174b36;
   font-weight: 800;
 }
